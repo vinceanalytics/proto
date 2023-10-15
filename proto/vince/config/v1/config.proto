@@ -41,7 +41,6 @@ message Config {
   repeated Notifier notifiers = 11;
 
   string server_id = 12;
-  string raft_path = 13 [ (buf.validate.field).required = true ];
 
   repeated string allowed_origins = 14;
 

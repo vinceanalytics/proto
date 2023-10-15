@@ -755,13 +755,6 @@ func (m *Config) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 			dAtA[i] = 0x72
 		}
 	}
-	if len(m.RaftPath) > 0 {
-		i -= len(m.RaftPath)
-		copy(dAtA[i:], m.RaftPath)
-		i = encodeVarint(dAtA, i, uint64(len(m.RaftPath)))
-		i--
-		dAtA[i] = 0x6a
-	}
 	if len(m.ServerId) > 0 {
 		i -= len(m.ServerId)
 		copy(dAtA[i:], m.ServerId)
@@ -2663,10 +2656,6 @@ func (m *Config) SizeVT() (n int) {
 		}
 	}
 	l = len(m.ServerId)
-	if l > 0 {
-		n += 1 + l + sov(uint64(l))
-	}
-	l = len(m.RaftPath)
 	if l > 0 {
 		n += 1 + l + sov(uint64(l))
 	}
@@ -5583,38 +5572,6 @@ func (m *Config) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.ServerId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 13:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RaftPath", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLength
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLength
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.RaftPath = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 14:
 			if wireType != 2 {
