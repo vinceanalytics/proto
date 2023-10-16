@@ -45,14 +45,11 @@
       },
       "additionalProperties": {}
     },
+    "v1CloseResult": {
+      "type": "object"
+    },
     "v1DeleteResponse": {
-      "type": "object",
-      "properties": {
-        "value": {
-          "type": "string",
-          "format": "byte"
-        }
-      }
+      "type": "object"
     },
     "v1GetResponse": {
       "type": "object",

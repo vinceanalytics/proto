@@ -65,6 +65,7 @@ service Storage {
   rpc Set(SetRequest) returns (SetResponse);
   rpc Get(GetRequest) returns (GetResponse);
   rpc Delete(DeleteRequest) returns (DeleteResponse);
+  rpc Close(Transaction) returns (CloseResult);
   rpc Iter(stream IterRequest) returns (stream IterStep);
 }
 
@@ -93,7 +94,9 @@ message DeleteRequest {
   bytes key = 2;
 }
 
-message DeleteResponse { bytes value = 1; }
+message DeleteResponse {}
+
+message CloseResult {}
 
 message IterOption {
   Transaction txn = 1;
