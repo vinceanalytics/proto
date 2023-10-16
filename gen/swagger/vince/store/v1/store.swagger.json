@@ -4,6 +4,11 @@
     "title": "vince/store/v1/store.proto",
     "version": "version not set"
   },
+  "tags": [
+    {
+      "name": "Storage"
+    }
+  ],
   "consumes": [
     "application/json"
   ],
@@ -39,6 +44,67 @@
         }
       },
       "additionalProperties": {}
+    },
+    "v1GetResponse": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "v1IterOption": {
+      "type": "object",
+      "properties": {
+        "txn": {
+          "$ref": "#/definitions/v1Transaction"
+        },
+        "prefix": {
+          "type": "string",
+          "format": "byte"
+        },
+        "reverse": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1IterStep": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1KeyValue"
+          }
+        }
+      }
+    },
+    "v1KeyValue": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "format": "byte"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "v1SetResponse": {
+      "type": "object"
+    },
+    "v1Transaction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
     }
   }
 }
