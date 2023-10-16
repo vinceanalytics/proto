@@ -45,6 +45,15 @@
       },
       "additionalProperties": {}
     },
+    "v1DeleteResponse": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
     "v1GetResponse": {
       "type": "object",
       "properties": {
@@ -66,6 +75,10 @@
         },
         "reverse": {
           "type": "boolean"
+        },
+        "batch": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
