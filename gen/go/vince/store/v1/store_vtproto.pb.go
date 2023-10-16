@@ -443,6 +443,16 @@ func (m *NewTransactionRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error)
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.Update {
+		i--
+		if m.Update {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x8
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -883,23 +893,6 @@ func (m *IterRequest_Batch) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 	dAtA[i] = 0x10
 	return len(dAtA) - i, nil
 }
-func (m *IterRequest_Halt) MarshalToVT(dAtA []byte) (int, error) {
-	size := m.SizeVT()
-	return m.MarshalToSizedBufferVT(dAtA[:size])
-}
-
-func (m *IterRequest_Halt) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	i--
-	if m.Halt {
-		dAtA[i] = 1
-	} else {
-		dAtA[i] = 0
-	}
-	i--
-	dAtA[i] = 0x18
-	return len(dAtA) - i, nil
-}
 func (m *IterRequest_Setup) MarshalToVT(dAtA []byte) (int, error) {
 	size := m.SizeVT()
 	return m.MarshalToSizedBufferVT(dAtA[:size])
@@ -915,7 +908,7 @@ func (m *IterRequest_Setup) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= size
 		i = encodeVarint(dAtA, i, uint64(size))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x1a
 	}
 	return len(dAtA) - i, nil
 }
@@ -1059,6 +1052,9 @@ func (m *NewTransactionRequest) SizeVT() (n int) {
 	}
 	var l int
 	_ = l
+	if m.Update {
+		n += 2
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -1219,15 +1215,6 @@ func (m *IterRequest_Batch) SizeVT() (n int) {
 	var l int
 	_ = l
 	n += 1 + sov(uint64(m.Batch))
-	return n
-}
-func (m *IterRequest_Halt) SizeVT() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	n += 2
 	return n
 }
 func (m *IterRequest_Setup) SizeVT() (n int) {
@@ -1498,6 +1485,26 @@ func (m *NewTransactionRequest) UnmarshalVT(dAtA []byte) error {
 			return fmt.Errorf("proto: NewTransactionRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Update", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Update = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skip(dAtA[iNdEx:])
@@ -2409,27 +2416,6 @@ func (m *IterRequest) UnmarshalVT(dAtA []byte) error {
 			}
 			m.Command = &IterRequest_Batch{Batch: v}
 		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Halt", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			b := bool(v != 0)
-			m.Command = &IterRequest_Halt{Halt: b}
-		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Setup", wireType)
 			}

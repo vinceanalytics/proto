@@ -71,7 +71,7 @@ service Storage {
 
 message Transaction { bytes id = 1; }
 
-message NewTransactionRequest {}
+message NewTransactionRequest { bool update = 1; }
 
 message SetRequest {
   Transaction txn = 1;
@@ -108,8 +108,7 @@ message IterOption {
 message IterRequest {
   oneof command {
     uint32 batch = 2;
-    bool halt = 3;
-    IterOption setup = 4;
+    IterOption setup = 3;
   }
 }
 
